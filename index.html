@@ -4,236 +4,720 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>காதல் பரிமாணம்</title>
+<title>Kaadhal Parinamam</title>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Tamil:wght@400;500;600&display=swap');
 
-    * {
-        box-sizing: border-box;
-    }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Tamil:wght@400;500;600;700&display=swap');
 
-    html {
-        scroll-behavior: smooth;
-    }
+* {
+    box-sizing: border-box;
+}
 
-    body {
-        margin: 0;
-        background:
-            radial-gradient(circle at 25% 20%, rgba(157, 91, 76, 0.20), transparent 35%),
-            radial-gradient(circle at 80% 70%, rgba(74, 58, 112, 0.28), transparent 40%),
-            #09080d;
-        color: #f5e8c8;
-        font-family: "Noto Serif Tamil", serif;
-    }
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
-    .page {
-        width: 100%;
-        max-width: 720px;
-        margin: auto;
-        padding: 28px 20px 60px;
-    }
+body {
+    background: #05050a;
+    font-family: 'Noto Serif Tamil', serif;
+}
 
-    /* TITLE */
+/* ENTIRE WEBSITE = POSTER */
+
+.poster {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.08) 0%,
+            rgba(0,0,0,0.03) 35%,
+            rgba(0,0,0,0.35) 65%,
+            rgba(0,0,0,0.78) 100%
+        ),
+        url("poster1.png");
+
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+/* A subtle cinematic darkening */
+
+.poster::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            transparent 42%,
+            rgba(0,0,0,0.18) 58%,
+            rgba(0,0,0,0.60) 100%
+        );
+    pointer-events: none;
+}
+
+/* ---------------- TITLE ---------------- */
+
+.title {
+    position: absolute;
+    z-index: 5;
+
+    top: 7%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+
+    text-align: center;
+
+    font-size: clamp(30px, 6vw, 58px);
+    font-weight: 700;
+    letter-spacing: 1px;
+
+    color: #fff7df;
+
+    text-shadow:
+        0 2px 4px rgba(0,0,0,0.9),
+        0 0 12px rgba(255,210,140,0.35);
+}
+
+/* ---------------- LYRICS ---------------- */
+
+.lyrics {
+    position: absolute;
+    z-index: 5;
+
+    left: 8%;
+    right: 8%;
+
+    top: 48%;
+    height: 28%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    overflow: hidden;
+
+    padding: 10px;
+}
+
+/* CURRENT TWO LINES */
+
+.current-lyrics {
+    font-size: clamp(19px, 4vw, 32px);
+    line-height: 1.65;
+
+    font-weight: 600;
+
+    color: #fff9e8;
+
+    text-shadow:
+        0 2px 5px rgba(0,0,0,0.95),
+        0 0 12px rgba(255,220,170,0.30);
+
+    min-height: 100px;
+
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease;
+}
+
+/* NEXT LYRICS */
+
+.upcoming {
+    margin-top: 16px;
+
+    font-size: clamp(14px, 3vw, 21px);
+    line-height: 1.7;
+
+    color: rgba(255,245,225,0.42);
+
+    text-shadow:
+        0 1px 4px rgba(0,0,0,0.9);
+
+    transition: opacity 0.5s ease;
+}
+
+.upcoming div {
+    margin: 1px 0;
+}
+
+/* ---------------- PLAYER ---------------- */
+
+.player {
+    position: absolute;
+    z-index: 6;
+
+    left: 8%;
+    right: 8%;
+
+    top: 78%;
+
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.play-button {
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.94);
+
+    color: #111;
+
+    font-size: 19px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 15px rgba(0,0,0,0.45);
+
+    flex-shrink: 0;
+}
+
+.progress-area {
+    flex: 1;
+}
+
+.progress {
+    width: 100%;
+    height: 4px;
+
+    appearance: none;
+
+    background: rgba(255,255,255,0.25);
+
+    border-radius: 10px;
+
+    cursor: pointer;
+}
+
+.progress::-webkit-slider-thumb {
+    appearance: none;
+
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    cursor: pointer;
+}
+
+.progress::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+
+    cursor: pointer;
+}
+
+.time {
+    margin-top: 7px;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: rgba(255,255,255,0.70);
+
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+}
+
+/* ---------------- CREDITS ---------------- */
+
+.credits {
+    position: absolute;
+    z-index: 5;
+
+    left: 8%;
+    right: 8%;
+
+    top: 88%;
+
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+
+    text-align: center;
+
+    color: rgba(255,245,225,0.72);
+
+    font-family: Arial, sans-serif;
+}
+
+.credit {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.credit-label {
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+
+    opacity: 0.55;
+}
+
+.credit-name {
+    font-size: 12px;
+}
+
+/* ---------------- LOVE ---------------- */
+
+.love {
+    position: absolute;
+    z-index: 5;
+
+    bottom: 2.5%;
+    left: 0;
+    right: 0;
+
+    text-align: center;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 8px;
+    letter-spacing: 2px;
+
+    color: rgba(255,255,255,0.32);
+}
+
+/* ---------------- MOBILE ---------------- */
+
+@media (max-width: 500px) {
 
     .title {
-        text-align: center;
-        font-size: clamp(28px, 7vw, 46px);
-        font-weight: 500;
-        letter-spacing: 2px;
-        margin: 10px 0 24px;
-        color: #f2d9e8;
-        text-shadow: 0 0 18px rgba(242, 217, 232, 0.15);
+        top: 6%;
+        font-size: 31px;
     }
 
-    /* ARTWORK */
-
-    .artwork {
-        width: 100%;
-        display: block;
-        border-radius: 6px;
-        box-shadow:
-            0 20px 60px rgba(0,0,0,0.55),
-            0 0 40px rgba(120, 70, 110, 0.12);
+    .lyrics {
+        top: 47%;
+        height: 30%;
     }
 
-    /* PLAYER */
+    .current-lyrics {
+        font-size: 20px;
+        line-height: 1.6;
+    }
+
+    .upcoming {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-top: 10px;
+    }
 
     .player {
-        margin: 34px auto 0;
-        padding: 22px 20px;
-        max-width: 600px;
-        border-radius: 18px;
-        background: rgba(255,255,255,0.045);
-        border: 1px solid rgba(245,232,200,0.14);
-        backdrop-filter: blur(12px);
+        top: 77%;
     }
 
-    .player-label {
-        text-align: center;
-        font-size: 13px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        opacity: 0.65;
-        margin-bottom: 14px;
+    .credits {
+        top: 88%;
+        gap: 15px;
     }
+}
 
-    audio {
-        width: 100%;
-    }
-
-    /* POEM */
-
-    .poem {
-        max-width: 620px;
-        margin: 55px auto 0;
-        padding: 0 12px;
-        text-align: center;
-        font-size: clamp(17px, 4.2vw, 22px);
-        line-height: 2.05;
-        font-weight: 400;
-    }
-
-    .stanza {
-        margin-bottom: 27px;
-    }
-
-    .final-line {
-        margin-top: 38px;
-        font-size: 1.05em;
-        color: #f2d9e8;
-    }
-
-    /* SIGNATURE */
-
-    .signature {
-        margin-top: 55px;
-        text-align: right;
-        padding-right: 12px;
-        font-size: 15px;
-        line-height: 1.8;
-        color: #f5e8c8;
-        opacity: 0.85;
-    }
-
-    .signature span {
-        color: #f2d9e8;
-    }
-
-    /* FOOTER */
-
-    .footer {
-        margin-top: 60px;
-        text-align: center;
-        font-family: Georgia, serif;
-        font-size: 11px;
-        letter-spacing: 3px;
-        opacity: 0.35;
-    }
-
-    @media (max-width: 500px) {
-
-        .page {
-            padding: 20px 14px 45px;
-        }
-
-        .title {
-            margin-bottom: 18px;
-        }
-
-        .player {
-            margin-top: 24px;
-            padding: 18px 14px;
-        }
-
-        .poem {
-            margin-top: 42px;
-            padding: 0 5px;
-            line-height: 1.95;
-        }
-
-        .stanza {
-            margin-bottom: 23px;
-        }
-
-        .signature {
-            margin-top: 45px;
-        }
-    }
 </style>
 </head>
 
+
 <body>
 
-<main class="page">
+<div class="poster">
 
-    <h1 class="title">காதல் பரிமாணம்</h1>
+    <!-- TITLE -->
 
-    <img
-        class="artwork"
-        src="poster.jpg"
-        alt="காதல் பரிமாணம்"
-    >
-
-    <section class="player">
-
-        <div class="player-label">
-            கேளுங்கள் · உணருங்கள்
-        </div>
-
-        <audio controls preload="metadata">
-            <source src="KadhalParinamam.mp3" type="audio/mpeg">
-            Your browser does not support audio.
-        </audio>
-
-    </section>
-
-    <section class="poem">
-
-        <div class="stanza">
-            கெட்டி மேளம் கொட்டியப் பின்<br>
-            கட்டும் கோலம் தொடங்கிடுமே<br>
-            தொட்டுணர்ந்த காதல் மொட்டு<br>
-            இடைவெளியில் பூத்திடுமே
-        </div>
-
-        <div class="stanza">
-            வாய்மொழிகள் தீர்ந்தப் பின்<br>
-            விழிமொழிகள் பேசுவீர்<br>
-            ஏகம் தேடிய மோகம்<br>
-            யாவிலும் கிடைத்திடுமே
-        </div>
-
-        <div class="stanza">
-            மெய்க் காதல் முடிந்தப்பின்<br>
-            மெய்க் காதல் தொடங்கிடுமே<br>
-            நான் நீ தாண்டியப்பின்<br>
-            நாம்தான் வளர்ந்திடுமே
-        </div>
-
-        <div class="stanza">
-            குறுஞ்செய்தி தொடர்நடெய்தி<br>
-            நெடுஞ்செய்தி சிலவெய்தி<br>
-            ஒரு செய்தி உணர்த்திடுமே
-        </div>
-
-        <div class="stanza final-line">
-            பல பருவம் மாறிடும் நம் உருவம்<br>
-            என்றும் மாறாது இது காதல் பரிமாணம்
-        </div>
-
-    </section>
-
-    <div class="signature">
-        அன்புடன்<br>
-        <span>Arun Kumar</span>
+    <div class="title">
+        காதல் பரிணாமம்
     </div>
 
-    <div class="footer">
+
+    <!-- LYRICS -->
+
+    <section class="lyrics">
+
+        <div class="current-lyrics" id="currentLyrics">
+            கெட்டி மேளம் கொட்டியப் பின்<br>
+            கட்டும் கோலம் தொடங்கிடுமே
+        </div>
+
+        <div class="upcoming" id="upcomingLyrics">
+            <div>தொட்டுணர்ந்த காதல் மொட்டு</div>
+            <div>இடைவெளியில் பூத்திடுமே</div>
+            <div>வாய்மொழிகள் தீர்ந்தப் பின்</div>
+            <div>விழிமொழிகள் பேசுவீர்</div>
+        </div>
+
+    </section>
+
+
+    <!-- PLAYER -->
+
+    <div class="player">
+
+        <button class="play-button" id="playButton">
+            ▶️
+        </button>
+
+        <div class="progress-area">
+
+            <input
+                type="range"
+                class="progress"
+                id="progress"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+            <div class="time">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CREDITS -->
+
+    <div class="credits">
+
+        <div class="credit">
+            <div class="credit-label">Lyrics</div>
+            <div class="credit-name">Arun Kumar</div>
+        </div>
+
+        <div class="credit">
+            <div class="credit-label">Composing</div>
+            <div class="credit-name">Gemini AI</div>
+        </div>
+
+        <div class="credit">
+            <div class="credit-label">Mix & Master</div>
+            <div class="credit-name">Arun Kumar</div>
+        </div>
+
+    </div>
+
+
+    <div class="love">
         MADE WITH LOVE
     </div>
 
-</main>
+</div>
+
+
+<!-- AUDIO -->
+
+<audio id="audio">
+    <source
+        src="KadhalParinamam.mp3"
+        type="audio/mpeg"
+    >
+</audio>
+
+
+<script>
+
+const audio = document.getElementById("audio");
+
+const playButton = document.getElementById("playButton");
+const progress = document.getElementById("progress");
+
+const currentTimeDisplay =
+    document.getElementById("currentTime");
+
+const durationDisplay =
+    document.getElementById("duration");
+
+const currentLyrics =
+    document.getElementById("currentLyrics");
+
+const upcomingLyrics =
+    document.getElementById("upcomingLyrics");
+
+
+/* ---------------------------------------
+   LYRICS + TIMESTAMPS
+
+   WE WILL REPLACE THESE TIMES
+   WITH YOUR REAL TIMESTAMPS LATER.
+---------------------------------------- */
+
+const lyrics = [
+
+    {
+        time: 0,
+        current: [
+            "கெட்டி மேளம் கொட்டியப் பின்",
+            "கட்டும் கோலம் தொடங்கிடுமே"
+        ],
+        next: [
+            "தொட்டுணர்ந்த காதல் மொட்டு",
+            "இடைவெளியில் பூத்திடுமே",
+            "வாய்மொழிகள் தீர்ந்தப் பின்",
+            "விழிமொழிகள் பேசுவீர்"
+        ]
+    },
+
+    {
+        time: 10,
+        current: [
+            "தொட்டுணர்ந்த காதல் மொட்டு",
+            "இடைவெளியில் பூத்திடுமே"
+        ],
+        next: [
+            "வாய்மொழிகள் தீர்ந்தப் பின்",
+            "விழிமொழிகள் பேசுவீர்",
+            "ஏகம் தேடிய மோகம்",
+            "யாவிலும் கிடைத்திடுமே"
+        ]
+    },
+
+    {
+        time: 20,
+        current: [
+            "வாய்மொழிகள் தீர்ந்தப் பின்",
+            "விழிமொழிகள் பேசுவீர்"
+        ],
+        next: [
+            "ஏகம் தேடிய மோகம்",
+            "யாவிலும் கிடைத்திடுமே",
+            "மெய்க் காதல் முடிந்தப்பின்",
+            "மெய்க் காதல் தொடங்கிடுமே"
+        ]
+    },
+
+    {
+        time: 30,
+        current: [
+            "ஏகம் தேடிய மோகம்",
+            "யாவிலும் கிடைத்திடுமே"
+        ],
+        next: [
+            "மெய்க் காதல் முடிந்தப்பின்",
+            "மெய்க் காதல் தொடங்கிடுமே",
+            "நான் நீ தாண்டியப்பின்",
+            "நாம்தான் வளர்ந்திடுமே"
+        ]
+    },
+
+    {
+        time: 40,
+        current: [
+            "மெய்க் காதல் முடிந்தப்பின்",
+            "மெய்க் காதல் தொடங்கிடுமே"
+        ],
+        next: [
+            "நான் நீ தாண்டியப்பின்",
+            "நாம்தான் வளர்ந்திடுமே",
+            "குறுஞ்செய்தி தொடர்நடெய்தி",
+            "நெடுஞ்செய்தி சிலவெய்தி"
+        ]
+    },
+
+    {
+        time: 50,
+        current: [
+            "நான் நீ தாண்டியப்பின்",
+            "நாம்தான் வளர்ந்திடுமே"
+        ],
+        next: [
+            "குறுஞ்செய்தி தொடர்நடெய்தி",
+            "நெடுஞ்செய்தி சிலவெய்தி",
+            "ஒரு செய்தி உணர்த்திடுமே"
+        ]
+    },
+
+    {
+        time: 60,
+        current: [
+            "குறுஞ்செய்தி தொடர்நடெய்தி",
+            "நெடுஞ்செய்தி சிலவெய்தி"
+        ],
+        next: [
+            "ஒரு செய்தி உணர்த்திடுமே",
+            "பல பருவம் மாறிடும் நம் உருவம்",
+            "என்றும் மாறாது இது",
+            "காதல் பரிணாமம்"
+        ]
+    },
+
+    {
+        time: 72,
+        current: [
+            "ஒரு செய்தி உணர்த்திடுமே",
+            "பல பருவம் மாறிடும் நம் உருவம்"
+        ],
+        next: [
+            "என்றும் மாறாது இது",
+            "காதல் பரிணாமம்"
+        ]
+    },
+
+    {
+        time: 80,
+        current: [
+            "என்றும் மாறாது இது",
+            "காதல் பரிணாமம்"
+        ],
+        next: []
+    }
+
+];
+
+
+/* ---------------------------------------
+   PLAY / PAUSE
+---------------------------------------- */
+
+playButton.addEventListener("click", () => {
+
+    if (audio.paused) {
+
+        audio.play();
+
+        playButton.textContent = "❚❚";
+
+    } else {
+
+        audio.pause();
+
+        playButton.textContent = "▶️";
+    }
+
+});
+
+
+/* ---------------------------------------
+   AUDIO LOADED
+---------------------------------------- */
+
+audio.addEventListener("loadedmetadata", () => {
+
+    durationDisplay.textContent =
+        formatTime(audio.duration);
+
+});
+
+
+/* ---------------------------------------
+   PROGRESS
+---------------------------------------- */
+
+audio.addEventListener("timeupdate", () => {
+
+    const percent =
+        (audio.currentTime / audio.duration) * 100;
+
+    progress.value = percent;
+
+    currentTimeDisplay.textContent =
+        formatTime(audio.currentTime);
+
+    updateLyrics(audio.currentTime);
+
+});
+
+
+progress.addEventListener("input", () => {
+
+    audio.currentTime =
+        (progress.value / 100) * audio.duration;
+
+});
+
+
+/* ---------------------------------------
+   UPDATE LYRICS
+---------------------------------------- */
+
+function updateLyrics(time) {
+
+    let active = lyrics[0];
+
+    for (let i = 0; i < lyrics.length; i++) {
+
+        if (time >= lyrics[i].time) {
+            active = lyrics[i];
+        } else {
+            break;
+        }
+
+    }
+
+    currentLyrics.innerHTML =
+        active.current.join("<br>");
+
+    upcomingLyrics.innerHTML =
+        active.next
+            .map(line => `<div>${line}</div>`)
+            .join("");
+
+}
+
+
+/* ---------------------------------------
+   TIME FORMAT
+---------------------------------------- */
+
+function formatTime(seconds) {
+
+    if (!seconds || isNaN(seconds)) {
+        return "0:00";
+    }
+
+    const minutes =
+        Math.floor(seconds / 60);
+
+    const secs =
+        Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
+
+    return `${minutes}:${secs}`;
+}
+
+
+/* ---------------------------------------
+   RESET WHEN SONG ENDS
+---------------------------------------- */
+
+audio.addEventListener("ended", () => {
+
+    playButton.textContent = "▶️";
+
+    progress.value = 0;
+
+});
+
+
+</script>
 
 </body>
 </html>
